@@ -2,9 +2,7 @@
 //  AppDelegate.swift
 //  Tipster
 //
-//  Created by Sarah Allen on 4/18/15.
-//  Copyright (c) 2015 Ultrasaurus. All rights reserved.
-//
+//  Created 4/18/15 with XCode 6.2
 
 import UIKit
 
