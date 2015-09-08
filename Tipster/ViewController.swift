@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func onEditingChanged(sender: AnyObject) {
-        var billAmount = NSString(string: billField.text).doubleValue
+        var billAmount = NSString(string: billField.text!).doubleValue
         var tipAmount = billAmount*0.2
         var total = billAmount + tipAmount;
         tipLabel.text = "$\(tipAmount)"
