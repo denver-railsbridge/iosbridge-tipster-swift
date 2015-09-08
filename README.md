@@ -19,6 +19,10 @@ File > New > Project
 
 You will always, 100% of the time, choose Single View application
 ![](screenshots/image00.png)
+
+Select "Swift" under Language
+![](screenshots/image42.png)
+
 ![](screenshots/image01.png)
 
 # Designing the view (15-20 mins)
@@ -49,7 +53,7 @@ Here's your app!  (Show running in simulator) Just a white screen since we haven
 ## Let's keep going
 
 On the left side, I can see a bunch of different files:
-* Image assets (select it) is going to be where I’m going to put all of my images.  For example, if you want to set an app icon.  You can drag in the appropriate app icon, so it will show up on the home screen.
+* Assets (select it) is going to be where I’m going to put all of my images.  For example, if you want to set an app icon.  You can drag in the appropriate app icon, so it will show up on the home screen.
 
 Then show in the top-right area, how you can collapse the properties pane on the right so there is more room to see all the app icons.
 
@@ -221,6 +225,32 @@ override func viewDidLoad() {
 }
 ```
 
+Add totalLabel (purposely misspell it to show how to change outlet names)
+![](screenshots/image44.png)
+
+Now change the name to totalLabel and run the app
+![](screenshots/image48.png)
+
+Whenever you see "key value coding-compliant", it means that the storyboard can't find what it's looking for in your code because it was deleted or the name changed.
+
+To fix this, click on the total label click on the ![](screenshots/image45.png) icon in the inspector. Click on the X next to "totLabel".
+![](screenshots/image46.png)
+
+Now reconnect it by clicking ctrl+drag onto the new name.
+![](screenshots/image47.png)
+
+Update viewDidLoad
+```
+override func viewDidLoad() {
+	super.viewDidLoad()
+	// Do any additional setup after loading the view, typically from a nib.
+	
+	tipLabel.text = "$0.00"
+	totalLabel.text = "$0.00"
+}
+```
+run the app!
+
 ### Now let's set up input text
 
 ![](screenshots/image33.png)
@@ -233,7 +263,7 @@ We want to make something happen when we type a number, so this time we'll contr
 
 ```
 @IBAction func onEditingChanged(sender: AnyObject) {
-  println("edit!")
+  print("edit!")
 
 }
 ```
@@ -258,14 +288,18 @@ but if we try to calculate the tip amount, we get an error
 @IBAction func onEditingChanged(sender: AnyObject) {
     var billAmount = NSString(string: billField.text).doubleValue
     var tipAmount = billAmount*0.2
-    println(tipAmount)
+    print(tipAmount)
 }
 ```
+
+Every now and then Xcode will give you an error and ask you to insert a "!". When this happens, clicking on the red dot and clicking the "Fix-it" suggestion will automatically insert a "!" into the right place to fix your code.
+
+![](screenshots/image43.png)
 
 ```
 @IBAction func onEditingChanged(sender: AnyObject) {
 
-    var billAmount = NSString(string: billField.text).doubleValue
+    var billAmount = NSString(string: billField.text!).doubleValue
 
     var tipAmount = billAmount*0.2
 
@@ -289,3 +323,55 @@ but if we try to calculate the tip amount, we get an error
 
 }
 ```
+### Select tip amount
+Add a segmented controller to the view.
+![](screenshots/image50.png)
+
+Set to 3 segments:
+![](screenshots/image51.png)
+
+Double-click to change segment labels (or do it in inspector):
+![](screenshots/image52.png)
+![](screenshots/image53.png)
+
+Add IBOutlet tipControl:
+![](screenshots/image54.png)
+
+Create tipPercentages array and update onEditingChanged:
+```
+    @IBAction func onEditingChanged(sender: AnyObject) {
+        var tipPercentages = [0.15, 0.20, 0.25]
+        var billAmount = NSString(string: billField.text!).doubleValue
+        var tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
+        var tipAmount = billAmount * tipPercentage
+        var total = billAmount + tipAmount
+        tipLabel.text = "\(tipAmount)"
+        totalLabel.text = "\(total)"
+    }
+```
+
+Connect tipControl onChange action to "onEditingChanged":
+![](screenshots/image55.png)
+
+### Bonus Section
+Add segmented controller for tip amount:
+
+Add clear button to bill amount:
+![](screenshots/image49.png)
+
+Use currency number formatter:
+```
+private var currencyFormatter = NSNumberFormatter()
+
+...
+
+@IBAction func onEditingChanged(sender: AnyObject) {
+	var billAmount = NSString(string: billField.text!).doubleValue
+	var tipAmount = billAmount * 0.2
+	var total = billAmount + tipAmount
+	tipLabel.text = currencyFormatter.stringFromNumber(tipAmount)
+	totalLabel.text = currencyFormatter.stringFromNumber(total)
+}
+
+```
+
