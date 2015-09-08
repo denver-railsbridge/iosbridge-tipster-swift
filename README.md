@@ -226,17 +226,21 @@ override func viewDidLoad() {
 ```
 
 Add totalLabel (purposely misspell it to show how to change outlet names)
+
 ![](screenshots/image44.png)
 
 Now change the name to totalLabel and run the app
+
 ![](screenshots/image48.png)
 
 Whenever you see "key value coding-compliant", it means that the storyboard can't find what it's looking for in your code because it was deleted or the name changed.
 
 To fix this, click on the total label click on the ![](screenshots/image45.png) icon in the inspector. Click on the X next to "totLabel".
+
 ![](screenshots/image46.png)
 
 Now reconnect it by clicking ctrl+drag onto the new name.
+
 ![](screenshots/image47.png)
 
 Update viewDidLoad
@@ -323,18 +327,22 @@ Every now and then Xcode will give you an error and ask you to insert a "!". Whe
 
 }
 ```
-### Select tip amount
-Add a segmented controller to the view.
+### Select Tip Amount
+Add a segmented controller to the view:
+
 ![](screenshots/image50.png)
 
 Set to 3 segments:
+
 ![](screenshots/image51.png)
 
 Double-click to change segment labels (or do it in inspector):
+
 ![](screenshots/image52.png)
 ![](screenshots/image53.png)
 
 Add IBOutlet tipControl:
+
 ![](screenshots/image54.png)
 
 Create tipPercentages array and update onEditingChanged:
@@ -351,12 +359,14 @@ Create tipPercentages array and update onEditingChanged:
 ```
 
 Connect tipControl onChange action to "onEditingChanged":
+
 ![](screenshots/image55.png)
 
 ### Bonus Section
 Add segmented controller for tip amount:
 
 Add clear button to bill amount:
+
 ![](screenshots/image49.png)
 
 Use currency number formatter:
