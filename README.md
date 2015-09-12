@@ -331,7 +331,7 @@ Every now and then Xcode will give you an error and ask you to insert a "!". Whe
 
 So our tip calculator is working pretty well, but it assumes that we always want to tip 20%. I want to be able to choose whether I tip 15, 18, or 20 percent.
 
-Add a segmented controller to the view:
+Add a segmented control to the view:
 
 ![](screenshots/image50.png)
 
@@ -395,7 +395,7 @@ If I put tipPercentages[2], that corresponds to 0.20...
 }
 ```
 
-So instead of putting 0, 1, or 2, I want to use whatever index is selected in my segmentedController. Now I can create a variable called tipPercentage to figure out the selected tip percentage. So now instead of 0.2, I'm going to put in tipPercentage.
+So instead of putting 0, 1, or 2, I want to use whatever index is selected in my segmentedControl. Now I can create a variable called tipPercentage to figure out the selected tip percentage. So now instead of 0.2, I'm going to put in tipPercentage.
 
 ```
 @IBAction func onEditingChanged(sender: AnyObject) {
@@ -420,7 +420,7 @@ Run the app!
 Now when I enter a bill, it's calculating the tip using the selected percentage. However, when I select a new percentage, my tip doesn't recalculate. But if I edit the bill amount, I notice that it does update to use the selected tip percentage.
 
 I can call my "onEditingChanged" action when changing the selected tip percentage by:
- * Right-clicking on the segmentedController
+ * Right-clicking on the segmentedControl
  * Ctrl+dragging from "Value Changed" to onEditingChanged in my code.
  
 This means that every time the selected value is changed, onEditingChanged will be called.
