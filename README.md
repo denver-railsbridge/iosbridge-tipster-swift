@@ -327,7 +327,7 @@ Every now and then Xcode will give you an error and ask you to insert a "!". Whe
 
 }
 ```
-### Select Tip Amount (Optional)
+### Select Tip Amount (If time allows)
 
 So our tip calculator is working pretty well, but it assumes that we always want to tip 20%. I want to be able to choose whether I tip 15, 18, or 20 percent.
 
