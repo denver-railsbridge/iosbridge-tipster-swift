@@ -19,6 +19,10 @@ File > New > Project
 
 You will always, 100% of the time, choose Single View application
 ![](screenshots/image00.png)
+
+Select "Swift" under Language
+![](screenshots/image42.png)
+
 ![](screenshots/image01.png)
 
 # Designing the view (15-20 mins)
@@ -49,7 +53,7 @@ Here's your app!  (Show running in simulator) Just a white screen since we haven
 ## Let's keep going
 
 On the left side, I can see a bunch of different files:
-* Image assets (select it) is going to be where I’m going to put all of my images.  For example, if you want to set an app icon.  You can drag in the appropriate app icon, so it will show up on the home screen.
+* Assets (select it) is going to be where I’m going to put all of my images.  For example, if you want to set an app icon.  You can drag in the appropriate app icon, so it will show up on the home screen.
 
 Then show in the top-right area, how you can collapse the properties pane on the right so there is more room to see all the app icons.
 
@@ -136,7 +140,7 @@ When we want to draw simple lines or areas of color, we just use a UIView:
 Show how it can be resized and then set background color to make it look like a line:
 ![](screenshots/image26.png)
 
-### Keybaord
+### Keyboard
 
 Hit play really frequently -- easier to catch on a problem early on
 If you aren’t hitting play every five minutes, something is going wrong
@@ -221,6 +225,36 @@ override func viewDidLoad() {
 }
 ```
 
+Add totalLabel (purposely misspell it to show how to change outlet names)
+
+![](screenshots/image44.png)
+
+Now change the name to totalLabel and run the app
+
+![](screenshots/image48.png)
+
+Whenever you see "key value coding-compliant", it means that the storyboard can't find what it's looking for in your code because it was deleted or the name changed.
+
+To fix this, click on the total label click on the ![](screenshots/image45.png) icon in the inspector. Click on the X next to "totLabel".
+
+![](screenshots/image46.png)
+
+Now reconnect it by clicking ctrl+drag onto the new name.
+
+![](screenshots/image47.png)
+
+Update viewDidLoad
+```
+override func viewDidLoad() {
+	super.viewDidLoad()
+	// Do any additional setup after loading the view, typically from a nib.
+	
+	tipLabel.text = "$0.00"
+	totalLabel.text = "$0.00"
+}
+```
+run the app!
+
 ### Now let's set up input text
 
 ![](screenshots/image33.png)
@@ -233,7 +267,7 @@ We want to make something happen when we type a number, so this time we'll contr
 
 ```
 @IBAction func onEditingChanged(sender: AnyObject) {
-  println("edit!")
+  print("edit!")
 
 }
 ```
@@ -258,14 +292,18 @@ but if we try to calculate the tip amount, we get an error
 @IBAction func onEditingChanged(sender: AnyObject) {
     var billAmount = NSString(string: billField.text).doubleValue
     var tipAmount = billAmount*0.2
-    println(tipAmount)
+    print(tipAmount)
 }
 ```
+
+Every now and then Xcode will give you an error and ask you to insert a "!". When this happens, clicking on the red dot and clicking the "Fix-it" suggestion will automatically insert a "!" into the right place to fix your code.
+
+![](screenshots/image43.png)
 
 ```
 @IBAction func onEditingChanged(sender: AnyObject) {
 
-    var billAmount = NSString(string: billField.text).doubleValue
+    var billAmount = NSString(string: billField.text!).doubleValue
 
     var tipAmount = billAmount*0.2
 
@@ -289,3 +327,127 @@ but if we try to calculate the tip amount, we get an error
 
 }
 ```
+### Select Tip Amount (If time allows)
+
+So our tip calculator is working pretty well, but it assumes that we always want to tip 20%. I want to be able to choose whether I tip 15, 18, or 20 percent.
+
+Add a segmented control to the view:
+
+![](screenshots/image50.png)
+
+Set to 3 segments:
+
+![](screenshots/image51.png)
+
+Double-click to change segment labels (or do it in inspector):
+
+![](screenshots/image52.png)
+![](screenshots/image53.png)
+
+Run the app. So now I have this control to select how much tip I want to calculate, but it doesn't actually do anything right now. I need a way to get the selected tip percentage.
+
+I control-drag from the UI element to the place in the code right inside the UIViewController at the top (in between the curly braces) and name it tipControl:
+
+![](screenshots/image54.png)
+
+I'm going to create a variable that is a list of the percentages available
+
+```
+@IBAction func onEditingChanged(sender: AnyObject) {
+	var billAmount = NSString(string: billField.text).doubleValue
+
+	var tipAmount = billAmount*0.2
+
+	var total = billAmount + tipAmount;
+
+	tipLabel.text = "$\(tipAmount)"
+
+	totalLabel.text = "$\(total)"
+
+
+	print(tipControl.selectedSegmentIndex)
+}
+```
+Computers start counting at 0. So when the 1st index is selected, it will print 0, when the 2nd index is selected, it prints 1, and so forth.
+
+Now I'm going to create a variable that is a list of the percentages available. This is called an array but it's basically just a list of numbers.
+
+If I put tipPercentages[0], that corresponds to 0.15...
+If I put tipPercentages[1], that corresponds to 0.18...
+If I put tipPercentages[2], that corresponds to 0.20...
+
+```
+@IBAction func onEditingChanged(sender: AnyObject) {
+	var tipPercentages = [0.15, 0.18, 0.20]
+	
+	var billAmount = NSString(string: billField.text).doubleValue
+
+	var tipAmount = billAmount*0.2
+
+	var total = billAmount + tipAmount;
+
+	tipLabel.text = "$\(tipAmount)"
+
+	totalLabel.text = "$\(total)"
+
+
+	print(tipControl.selectedSegmentIndex)
+}
+```
+
+So instead of putting 0, 1, or 2, I want to use whatever index is selected in my segmentedControl. Now I can create a variable called tipPercentage to figure out the selected tip percentage. So now instead of 0.2, I'm going to put in tipPercentage.
+
+```
+@IBAction func onEditingChanged(sender: AnyObject) {
+	var tipPercentages = [0.15, 0.18, 0.20]
+	
+	var billAmount = NSString(string: billField.text!).doubleValue
+	
+	var tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
+	
+	var tipAmount = billAmount * tipPercentage
+	
+	var total = billAmount + tipAmount
+	
+	tipLabel.text = "\(tipAmount)"
+	
+	totalLabel.text = "\(total)"
+}
+```
+
+Run the app!
+
+Now when I enter a bill, it's calculating the tip using the selected percentage. However, when I select a new percentage, my tip doesn't recalculate. But if I edit the bill amount, I notice that it does update to use the selected tip percentage.
+
+I can call my "onEditingChanged" action when changing the selected tip percentage by:
+ * Right-clicking on the segmentedControl
+ * Ctrl+dragging from "Value Changed" to onEditingChanged in my code.
+ 
+This means that every time the selected value is changed, onEditingChanged will be called.
+
+![](screenshots/image55.png)
+
+Now run the app!
+
+### Bonus Section
+
+Add clear button to bill amount:
+
+![](screenshots/image49.png)
+
+Use currency number formatter:
+```
+private var currencyFormatter = NSNumberFormatter()
+
+...
+
+@IBAction func onEditingChanged(sender: AnyObject) {
+	var billAmount = NSString(string: billField.text!).doubleValue
+	var tipAmount = billAmount * 0.2
+	var total = billAmount + tipAmount
+	tipLabel.text = currencyFormatter.stringFromNumber(tipAmount)
+	totalLabel.text = currencyFormatter.stringFromNumber(total)
+}
+
+```
+
