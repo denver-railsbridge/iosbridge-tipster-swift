@@ -327,7 +327,10 @@ Every now and then Xcode will give you an error and ask you to insert a "!". Whe
 
 }
 ```
-### Select Tip Amount
+### Select Tip Amount (Optional)
+
+So our tip calculator is working pretty well, but it assumes that we always want to tip 20%. I want to be able to choose whether I tip 15, 18, or 20 percent.
+
 Add a segmented controller to the view:
 
 ![](screenshots/image50.png)
@@ -341,29 +344,92 @@ Double-click to change segment labels (or do it in inspector):
 ![](screenshots/image52.png)
 ![](screenshots/image53.png)
 
-Add IBOutlet tipControl:
+Run the app. So now I have this control to select how much tip I want to calculate, but it doesn't actually do anything right now. I need a way to get the selected tip percentage.
+
+I control-drag from the UI element to the place in the code right inside the UIViewController at the top (in between the curly braces) and name it tipControl:
 
 ![](screenshots/image54.png)
 
-Create tipPercentages array and update onEditingChanged:
+I'm going to create a variable that is a list of the percentages available
+
 ```
-    @IBAction func onEditingChanged(sender: AnyObject) {
-        var tipPercentages = [0.15, 0.20, 0.25]
-        var billAmount = NSString(string: billField.text!).doubleValue
-        var tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
-        var tipAmount = billAmount * tipPercentage
-        var total = billAmount + tipAmount
-        tipLabel.text = "\(tipAmount)"
-        totalLabel.text = "\(total)"
-    }
+@IBAction func onEditingChanged(sender: AnyObject) {
+	var billAmount = NSString(string: billField.text).doubleValue
+
+	var tipAmount = billAmount*0.2
+
+	var total = billAmount + tipAmount;
+
+	tipLabel.text = "$\(tipAmount)"
+
+	totalLabel.text = "$\(total)"
+
+
+	print(tipControl.selectedSegmentIndex)
+}
+```
+Computers start counting at 0. So when the 1st index is selected, it will print 0, when the 2nd index is selected, it prints 1, and so forth.
+
+Now I'm going to create a variable that is a list of the percentages available. This is called an array but it's basically just a list of numbers.
+
+If I put tipPercentages[0], that corresponds to 0.15...
+If I put tipPercentages[1], that corresponds to 0.18...
+If I put tipPercentages[2], that corresponds to 0.20...
+
+```
+@IBAction func onEditingChanged(sender: AnyObject) {
+	var tipPercentages = [0.15, 0.18, 0.20]
+	
+	var billAmount = NSString(string: billField.text).doubleValue
+
+	var tipAmount = billAmount*0.2
+
+	var total = billAmount + tipAmount;
+
+	tipLabel.text = "$\(tipAmount)"
+
+	totalLabel.text = "$\(total)"
+
+
+	print(tipControl.selectedSegmentIndex)
+}
 ```
 
-Connect tipControl onChange action to "onEditingChanged":
+So instead of putting 0, 1, or 2, I want to use whatever index is selected in my segmentedController. Now I can create a variable called tipPercentage to figure out the selected tip percentage. So now instead of 0.2, I'm going to put in tipPercentage.
+
+```
+@IBAction func onEditingChanged(sender: AnyObject) {
+	var tipPercentages = [0.15, 0.18, 0.20]
+	
+	var billAmount = NSString(string: billField.text!).doubleValue
+	
+	var tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
+	
+	var tipAmount = billAmount * tipPercentage
+	
+	var total = billAmount + tipAmount
+	
+	tipLabel.text = "\(tipAmount)"
+	
+	totalLabel.text = "\(total)"
+}
+```
+
+Run the app!
+
+Now when I enter a bill, it's calculating the tip using the selected percentage. However, when I select a new percentage, my tip doesn't recalculate. But if I edit the bill amount, I notice that it does update to use the selected tip percentage.
+
+I can call my "onEditingChanged" action when changing the selected tip percentage by:
+ * Right-clicking on the segmentedController
+ * Ctrl+dragging from "Value Changed" to onEditingChanged in my code.
+ 
+This means that every time the selected value is changed, onEditingChanged will be called.
 
 ![](screenshots/image55.png)
 
+Now run the app!
+
 ### Bonus Section
-Add segmented controller for tip amount:
 
 Add clear button to bill amount:
 
