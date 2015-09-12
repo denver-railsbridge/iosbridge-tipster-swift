@@ -140,7 +140,7 @@ When we want to draw simple lines or areas of color, we just use a UIView:
 Show how it can be resized and then set background color to make it look like a line:
 ![](screenshots/image26.png)
 
-### Keybaord
+### Keyboard
 
 Hit play really frequently -- easier to catch on a problem early on
 If you aren’t hitting play every five minutes, something is going wrong
