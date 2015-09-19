@@ -15,18 +15,18 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        tipLabel.text = "$0.00"
-        totalLabel.text = "$0.00"
+        self.tipLabel.text = "$0.00"
+        self.totalLabel.text = "$0.00"
     }
     
     @IBAction func onEditingChanged(sender: AnyObject) {
-        var tipPercentages = [0.15, 0.18, 0.20]
-        var billAmount = NSString(string: billField.text!).doubleValue
-        var tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
-        var tipAmount = billAmount * tipPercentage
-        var total = billAmount + tipAmount;
-        tipLabel.text = "$\(tipAmount)"
-        totalLabel.text = "$\(total)"
+        let tipPercentages = [0.15, 0.18, 0.20]
+        let billAmount = NSString(string: billField.text!).doubleValue
+        let tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
+        let tipAmount = billAmount * tipPercentage
+        let total = billAmount + tipAmount;
+        self.tipLabel.text = "$\(tipAmount)"
+        self.totalLabel.text = "$\(total)"
     }
 
     override func didReceiveMemoryWarning() {
