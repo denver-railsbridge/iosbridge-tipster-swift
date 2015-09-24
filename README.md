@@ -37,13 +37,18 @@ What you will learn:
 Upper left:
 * Play / Stop buttons
 * Ability to select which simulated phone to run on (or your real phone)
-* Menu next to your app name: ![](screenshots/image08.png)
+* Menu next to your app name:
+
+    ![](screenshots/image08.png)
+
 * Choose iPhone 5, easy small demo
-![](screenshots/image07.png)
+
+    ![](screenshots/image07.png)
 
 * You can see my phone is named...  Your phone might say “trust this” you should say "ok"
 
    Note: deployment target, might need to change that if you iOS app doesn’t match
+
    ![](screenshots/image04.png)
 
 For now, just run on Simultaor, by clicking on the play button in the upper-left of the window
@@ -61,6 +66,7 @@ Storyboard
 Storyboard -- when you think about the application, you think about how many views the app has
 
 Select the main storyboard (Main.storyboard) -- notice that it is square.
+
 ![](screenshots/image03.png)
 
 There are no square iOS devices, but this is Apple’s way of hinting that devices in the future may be any size so they really want you design & build for arbitrary dimensions.
@@ -68,6 +74,7 @@ There are no square iOS devices, but this is Apple’s way of hinting that devic
 Right now, for this app, we’re going to just design for portrait iPhone layout, just so you get experience with the basics of hooking up UI elements.
 
 Click on the screen, then on the document icon in the properties panel.
+
 ![](screenshots/image09.png)
 
 ### Turn off auto-layout
@@ -78,15 +85,19 @@ Turning off auto-layout requires turning off size classes
 Click on the big rectangle in the middle of the screen, then on the right side of the screen, click on the document icon in the properties panel.
 
 Uncheck "Use Auto Layout"
+
 ![](screenshots/image10.png)
 
 A dialog box will appear, click "Disable Size Classes"
+
 ![](screenshots/image11.png)
 
 Now the document properties panel should look like this:
+
 ![](screenshots/image12.png)
 
 and the storyboard layout will look like an iPhone:
+
 ![](screenshots/image13.png)
 
 
@@ -97,6 +108,7 @@ I’ll start by setting some properties on the canvas.
 For the longest time I thought this was a shield, but it’s actually supposed to represent a slider, so you can remind you that it is for setting various values that affect whatever view is selected.  so, let’s just set the background color
 
 If needed, select Main.storyboard
+
 ![](screenshots/image14.png)
 
 Then select the view
@@ -111,6 +123,7 @@ Now, I’m going to start building out my views.  Just to remind you, here’s t
 You always start in iOS development with just making the static views.  This is a one screen application, but even if I had multiple screens I would just do one screen at a time.  Then for each screen I lay out the elements that are in that screen.
 
 Type "label" into the lower-right panel:
+
 ![](screenshots/image16.png)
 
 Option, click-drag to duplicate elements, just like a lot of other visual design apps.
@@ -123,21 +136,27 @@ Make font bigger, right justify, etc. show
 ![](screenshots/image19.png)
 
 Command = - size to fit
+
 ![](screenshots/image20.png)
 
 Option, click-drag to duplicate
+
 ![](screenshots/image21.png)
 
 Now let's add an editable text field.  Type "text" into the box on the lower-right:
+
 ![](screenshots/image22.png)
 
 Run the app...
+
 ![](screenshots/image23.png)
 
 When we want to draw simple lines or areas of color, we just use a UIView:
+
 ![](screenshots/image25.png)
 
 Show how it can be resized and then set background color to make it look like a line:
+
 ![](screenshots/image26.png)
 
 ### Keyboard
@@ -147,8 +166,8 @@ If you aren’t hitting play every five minutes, something is going wrong
 
 Make sure the keyboard comes up when you click into the keyboard
 
-
 ![](screenshots/image29.png)
+
 If not:
 Hardware > Keyboard > Toggle Software Keyboard
 command 1 - 2 - 3 to get simulator at diff sizes
@@ -191,9 +210,11 @@ I'll teach you about the most important parts of this:
 Suppose I want to set some attribute of my UI element dynamically when the app loads.  I need to pick a unique name for that element so I can talk to it from my code. I'd like to call it "tipLabel" so I can say “hey tipLabel”...
 
 I control-drag from the UI element to the place in the code right inside the UIViewController at the top (in between the curly braces)
+
 ![](screenshots/image35.png)
 
 It inserts this text:
+
 ![](screenshots/image36.png)
 
 Now I can refer to it
@@ -248,7 +269,7 @@ Update viewDidLoad
 override func viewDidLoad() {
 	super.viewDidLoad()
 	// Do any additional setup after loading the view, typically from a nib.
-	
+
 	tipLabel.text = "$0.00"
 	totalLabel.text = "$0.00"
 }
@@ -286,6 +307,7 @@ run the app and see it in action!
 run the app and see what we type in the field
 
 but if we try to calculate the tip amount, we get an error
+
 ![](screenshots/image41.png)
 
 ```
@@ -379,7 +401,7 @@ If I put tipPercentages[2], that corresponds to 0.20...
 ```
 @IBAction func onEditingChanged(sender: AnyObject) {
 	var tipPercentages = [0.15, 0.18, 0.20]
-	
+
 	var billAmount = NSString(string: billField.text).doubleValue
 
 	var tipAmount = billAmount*0.2
@@ -400,17 +422,17 @@ So instead of putting 0, 1, or 2, I want to use whatever index is selected in my
 ```
 @IBAction func onEditingChanged(sender: AnyObject) {
 	var tipPercentages = [0.15, 0.18, 0.20]
-	
+
 	var billAmount = NSString(string: billField.text!).doubleValue
-	
+
 	var tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
-	
+
 	var tipAmount = billAmount * tipPercentage
-	
+
 	var total = billAmount + tipAmount
-	
+
 	tipLabel.text = "\(tipAmount)"
-	
+
 	totalLabel.text = "\(total)"
 }
 ```
@@ -422,7 +444,7 @@ Now when I enter a bill, it's calculating the tip using the selected percentage.
 I can call my "onEditingChanged" action when changing the selected tip percentage by:
  * Right-clicking on the segmentedControl
  * Ctrl+dragging from "Value Changed" to onEditingChanged in my code.
- 
+
 This means that every time the selected value is changed, onEditingChanged will be called.
 
 ![](screenshots/image55.png)
