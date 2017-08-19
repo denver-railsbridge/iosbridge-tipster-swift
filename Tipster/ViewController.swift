@@ -2,6 +2,7 @@
 //  ViewController.swift
 //  Tipster
 //  Created 4/18/15 with XCode 6.2
+//  Updated 8/18/17 with XCode 8.3.3
 
 import UIKit
 
@@ -19,7 +20,7 @@ class ViewController: UIViewController {
         self.totalLabel.text = "$0.00"
     }
     
-    @IBAction func onEditingChanged(sender: AnyObject) {
+    @IBAction func onEditingChanged(_ sender: AnyObject) {
         let tipPercentages = [0.15, 0.18, 0.20]
         let billAmount = NSString(string: billField.text!).doubleValue
         let tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
