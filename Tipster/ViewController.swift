@@ -3,6 +3,7 @@
 //  Tipster
 //  Created 4/18/15 with XCode 6.2
 //  Updated 8/18/17 with XCode 8.3.3
+//  Updated 8/01/18 with XCode 9.4.1
 
 import UIKit
 
